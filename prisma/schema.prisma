@@ -9,3 +9,42 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+
+model Market {
+  id Int @id @default(autoincrement())
+  name String 
+  branches Branches[]
+}
+
+model Branches {
+  id Int @id @default(autoincrement())
+  name String
+  address String
+  market Market @relation(fields: [market_id], references: [id]) 
+  market_id Int
+  workers Workers[]
+  products Products[]
+}
+
+model Workers {
+  id Int @id @default(autoincrement())
+  name String
+  phoneNumber String
+  branches Branches @relation(fields: [branchId], references: [id])
+  branchId Int
+}
+
+model Products {
+  id Int @id @default(autoincrement())
+  title String
+  price Int
+  branches Branches @relation(fields: [branchId], references: [id])
+  branchId Int
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  email String
+}
